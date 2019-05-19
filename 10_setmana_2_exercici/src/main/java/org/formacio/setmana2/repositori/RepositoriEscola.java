@@ -9,35 +9,39 @@ import org.formacio.setmana2.domini.Matricula;
 import org.springframework.stereotype.Repository;
 
 /**
- * Modifica aquesta classe per tal que sigui un component Spring que realitza les 
- * operacions de persistencia tal com indiquen les firmes dels metodes
+ * Modifica aquesta classe per tal que sigui un component Spring que realitza
+ * les operacions de persistencia tal com indiquen les firmes dels metodes
  */
 @Repository
 public class RepositoriEscola {
 
 	@PersistenceContext
 	private EntityManager entityManager = null;
-	
+
 	public Curs carregaCurs(String nom) {
-		
+
 		Curs curs = entityManager.find(Curs.class, nom);
-		
+
 		return curs;
 	}
-	
-	
-	public Matricula apunta (String alumne, String curs) throws EdatIncorrecteException {
-		
+
+	public Matricula apunta(String alumne, String curs) throws EdatIncorrecteException {
+
 		Alumne alumno = entityManager.find(Alumne.class, alumne);
-	    Curs curso = this.carregaCurs(curs);
-	    
-	    
-	    Matricula matricula = new Matricula();
-	    matricula.setAlumne(alumno);
-    	matricula.setCurs(curso);
-    	entityManager.persist(matricula);
-	    return matricula;	
+		Curs curso = this.carregaCurs(curs);
+
+		if (alumno.getEdat() >= curso.getEdatMinima()) {
+
+			Matricula matricula = new Matricula();
+			matricula.setAlumne(alumno);
+			matricula.setCurs(curso);
+			entityManager.persist(matricula);
+			return matricula;
+
+		} else {
+			throw new EdatIncorrecteException();
+		}
+
 	}
-	
-	
+
 }
