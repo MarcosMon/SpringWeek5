@@ -3,18 +3,22 @@ package org.formacio.setmana2.domini;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
-//@Entity
-//@Table(name = "t_matricules")
+@Entity
+@Table(name = "t_matricules")
 public class Matricula {
 	
-//	@Id
-//	@Column(name = "mat_id")
+	@Id
+	@Column(name = "mat_id")
 	private Long id; 
-//	@Column(name = "mat_alumne")
+	@ManyToOne
+	@JoinColumn(name = "mat_alumne")
 	private Alumne alumne;
-//	@Column(name = "mat_curs")
+	@ManyToOne
+	@JoinColumn(name = "mat_curs")
 	private Curs curs;
 	
 	public Long getId() {
